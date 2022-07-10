@@ -1,0 +1,23 @@
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/notes
+
+note over browser:
+browser sends input data as JSON 
+{
+  content: "single page app does not reload the whole page",
+  date: "2019-05-25T15:15:59.905Z"
+}
+end note
+
+server-->browser: server responds with HTTP status code 201
+
+note over browser:
+browser does not relaod
+end note
+
+note over server:
+server sends list of all notes which browser renders
+end note
+
+note over browser:
+A new note is created and new JSON data is appended on the SPA app
+end note
