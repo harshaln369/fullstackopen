@@ -32,15 +32,30 @@ const Header = ({ title }) => <h1>{title}</h1>;
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 const Total = ({ ratings }) => {
-  return <p>all {getTotalFromObject(ratings)}</p>;
+  return (
+    <tr>
+      <td>all</td>
+      <td>{getTotalFromObject(ratings)}</td>
+    </tr>
+  );
 };
 
 const Average = ({ ratings }) => {
-  return <p>average {getAverageFromObject(ratings)}</p>;
+  return (
+    <tr>
+      <td>average</td>
+      <td>{getAverageFromObject(ratings)}</td>
+    </tr>
+  );
 };
 
 const Positive = ({ ratings }) => {
-  return <p>positive {getPositiveFromObject(ratings)} %</p>;
+  return (
+    <tr>
+      <td>positive</td>
+      <td>{getPositiveFromObject(ratings)} %</td>
+    </tr>
+  );
 };
 
 const Feedback = ({ buttons, onChangeRating }) => {
@@ -61,16 +76,21 @@ const Feedback = ({ buttons, onChangeRating }) => {
 const Statistics = ({ buttons, ratings }) => (
   <>
     <Header title="statistics" />
-    {buttons.map((button, idx) => (
-      <p key={idx}>
-        {button} {ratings[button]}
-      </p>
-    ))}
+    <table>
+      <tbody>
+        {buttons.map((button, idx) => (
+          <tr key={idx}>
+            <td>{button}</td>
+            <td>{ratings[button]}</td>
+          </tr>
+        ))}
 
-    {/* Defined three different components already */}
-    <Total ratings={ratings} />
-    <Average ratings={ratings} />
-    <Positive ratings={ratings} />
+        {/* Defined three different components already */}
+        <Total ratings={ratings} />
+        <Average ratings={ratings} />
+        <Positive ratings={ratings} />
+      </tbody>
+    </table>
   </>
 );
 
