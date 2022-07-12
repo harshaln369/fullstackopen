@@ -92,6 +92,8 @@ const App = () => {
   return (
     <div>
       <Feedback buttons={buttons} onChangeRating={handleRating} />
+
+      {/* stats is already a different component */}
       <Statistics buttons={buttons} ratings={{ good, neutral, bad }} />
     </div>
   );
