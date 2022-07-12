@@ -66,6 +66,8 @@ const Statistics = ({ buttons, ratings }) => (
         {button} {ratings[button]}
       </p>
     ))}
+
+    {/* Defined three different components already */}
     <Total ratings={ratings} />
     <Average ratings={ratings} />
     <Positive ratings={ratings} />
