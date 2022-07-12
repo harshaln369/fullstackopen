@@ -94,7 +94,11 @@ const App = () => {
       <Feedback buttons={buttons} onChangeRating={handleRating} />
 
       {/* stats is already a different component */}
-      <Statistics buttons={buttons} ratings={{ good, neutral, bad }} />
+      {good || bad || neutral ? (
+        <Statistics buttons={buttons} ratings={{ good, neutral, bad }} />
+      ) : (
+        <p>No feedback given</p>
+      )}
     </div>
   );
 };
