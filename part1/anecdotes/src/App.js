@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Votes = ({ points, setPoints, selected }) => {
   const incrementVote = () => {
@@ -12,6 +12,21 @@ const Votes = ({ points, setPoints, selected }) => {
     <>
       <p>has {points[selected]} votes.</p>
       <button onClick={incrementVote}>vote</button>
+    </>
+  );
+};
+
+const MostVotes = ({ points, anecdotes }) => {
+  const [maxVotesIndex, setMaxVotesIndex] = useState(null);
+
+  useEffect(() => {
+    setMaxVotesIndex(points.indexOf(Math.max(...points)));
+  }, [points, maxVotesIndex]);
+
+  return (
+    <>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[maxVotesIndex]}</p>
     </>
   );
 };
@@ -39,8 +54,10 @@ const App = () => {
   return (
     <>
       <div>{anecdotes[selected]}</div>
-      <button onClick={getRandomSelection}>next anecdote</button>
+
       <Votes points={points} selected={selected} setPoints={setPoints} />
+      <button onClick={getRandomSelection}>next anecdote</button>
+      <MostVotes points={points} anecdotes={anecdotes} />
     </>
   );
 };
