@@ -24,6 +24,7 @@ const Part = ({ name, exercises }) => (
 );
 
 const Sum = ({ parts }) => {
+  // already used reduce
   const total = parts.reduce((prevValue, currentValue) => {
     return prevValue + currentValue.exercises;
   }, 0);
