@@ -12,6 +12,8 @@ const Content = ({ parts }) => (
     {parts.map((part) => (
       <Part key={part.id} name={part.name} exercises={part.exercises} />
     ))}
+
+    <Sum parts={parts} />
   </>
 );
 
@@ -20,6 +22,13 @@ const Part = ({ name, exercises }) => (
     {name} {exercises}
   </p>
 );
+
+const Sum = ({ parts }) => {
+  const total = parts.reduce((prevValue, currentValue) => {
+    return prevValue + currentValue.exercises;
+  }, 0);
+  return <p>total of {total} exercises</p>;
+};
 
 const App = () => {
   const course = {
