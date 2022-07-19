@@ -8,7 +8,6 @@ import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-
   const [filteredPersons, setFilteredPersons] = useState([]);
   const [searchField, setSearchField] = useState("");
   const [newName, setNewName] = useState("");
