@@ -1,7 +1,9 @@
 import { useState } from "react";
+import SingleCountry from "./SingleCountry";
 
 const Search = ({ allCountries }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [country, setCountry] = useState(null);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -13,6 +15,10 @@ const Search = ({ allCountries }) => {
       country.name.official.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const getCountry = (country) => {
+    setCountry(country);
+  };
+
   const renderCountries = () => {
     if (filteredCountries.length === 0) {
       return <p>No Countries</p>;
@@ -20,28 +26,21 @@ const Search = ({ allCountries }) => {
       return <p>Too many matches, specify another filter</p>;
     } else if (filteredCountries.length === 1) {
       return (
-        <>
-          <h2>{filteredCountries[0].name.common}</h2>
-          <p>capital {filteredCountries[0].capital[0]}</p>
-          <p>area {filteredCountries[0].area}</p>
-          <div>
-            <h4>Languages:</h4>
-            <ul>
-              {Object.values(filteredCountries[0].languages).map((value) => (
-                <li key={value}>{value}</li>
-              ))}
-            </ul>
-
-            <img
-              src={filteredCountries[0].flags.png}
-              alt={`${filteredCountries[0].name.official} flag`}
-            />
-          </div>
-        </>
+        <SingleCountry
+          commonName={filteredCountries[0].name.common}
+          capital={filteredCountries[0].capital[0]}
+          area={filteredCountries[0].area}
+          languages={filteredCountries[0].languages}
+          flag={filteredCountries[0].flags.png}
+          officialName={filteredCountries[0].name.official}
+        />
       );
     } else {
       return filteredCountries.map((country) => (
-        <li key={country.name.official}>{country.name.common}</li>
+        <div key={country.name.official}>
+          {country.name.common}{" "}
+          <button onClick={() => getCountry(country)}>show</button>
+        </div>
       ));
     }
   };
@@ -50,6 +49,16 @@ const Search = ({ allCountries }) => {
     <>
       find countries: <input onChange={handleSearch} value={searchTerm} />
       {renderCountries()}
+      {country && (
+        <SingleCountry
+          commonName={country.name.common}
+          capital={country.capital[0]}
+          area={country.area}
+          languages={country.languages}
+          flag={country.flags.png}
+          officialName={country.name.official}
+        />
+      )}
     </>
   );
 };
