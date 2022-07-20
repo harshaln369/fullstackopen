@@ -1,3 +1,5 @@
+import Weather from "./Weather";
+
 const SingleCountry = ({
   commonName,
   capital,
@@ -20,6 +22,7 @@ const SingleCountry = ({
 
       <img src={flag} alt={`${officialName} flag`} />
     </div>
+    <Weather capital={capital} />
   </>
 );
 
