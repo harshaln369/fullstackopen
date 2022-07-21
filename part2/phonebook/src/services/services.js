@@ -16,4 +16,10 @@ const deletePerson = (id) => {
   return axios.delete(`http://localhost:3001/persons/${id}`);
 };
 
-export { addNewNote, getPersons, deletePerson };
+const updatePerson = (id, updatedData) => {
+  return axios
+    .put(`http://localhost:3001/persons/${id}`, updatedData)
+    .then((response) => response.data);
+};
+
+export { addNewNote, getPersons, deletePerson, updatePerson };

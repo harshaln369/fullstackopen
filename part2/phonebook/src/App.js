@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 
-import { getPersons, addNewNote, deletePerson } from "./services/services";
+import {
+  getPersons,
+  addNewNote,
+  deletePerson,
+  updatePerson,
+} from "./services/services";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
@@ -42,11 +47,27 @@ const App = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    const nameAlreadyExists = persons.filter(
+    const nameAlreadyExists = persons.find(
       (person) => person.name.toLowerCase() === newName.toLowerCase()
     );
-    if (nameAlreadyExists.length > 0) {
-      alert(`${newName} is already added to phonebook.`);
+    if (nameAlreadyExists) {
+      if (
+        window.confirm(
+          `${nameAlreadyExists.name} is already added to phonebook, replace the older number with new one`
+        )
+      ) {
+        updatePerson(nameAlreadyExists.id, {
+          name: nameAlreadyExists.name,
+          number: newNumber,
+          id: nameAlreadyExists.id,
+        }).then((response) =>
+          setPersons((persons) =>
+            persons.map((person) =>
+              person.id !== nameAlreadyExists.id ? person : response
+            )
+          )
+        );
+      }
     } else {
       setPersons(
         persons.concat({
