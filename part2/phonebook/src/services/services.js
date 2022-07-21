@@ -1,4 +1,9 @@
 import axios from "axios";
+const getPersons = () => {
+  return axios
+    .get("http://localhost:3001/persons")
+    .then((response) => response.data);
+};
 
 // already extracted the code to seperate file
 const addNewNote = (newNote) => {
@@ -7,4 +12,8 @@ const addNewNote = (newNote) => {
     .then((response) => response.data);
 };
 
-export { addNewNote };
+const deletePerson = (id) => {
+  return axios.delete(`http://localhost:3001/persons/${id}`);
+};
+
+export { addNewNote, getPersons, deletePerson };

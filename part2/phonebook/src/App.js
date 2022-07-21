@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 
-import axios from "axios";
-
-import { addNewNote } from "./services/services";
+import { getPersons, addNewNote, deletePerson } from "./services/services";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
@@ -15,9 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => setPersons(response.data));
+    getPersons().then((response) => setPersons(response));
   }, []);
 
   const filterNamesHandler = (event) => {
@@ -37,6 +33,13 @@ const App = () => {
     }
   };
 
+  const deleteHandler = (id, name) => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      setPersons((person) => persons.filter((person) => person.id !== id));
+      deletePerson(id);
+    }
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
     const nameAlreadyExists = persons.filter(
@@ -45,7 +48,13 @@ const App = () => {
     if (nameAlreadyExists.length > 0) {
       alert(`${newName} is already added to phonebook.`);
     } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }));
+      setPersons(
+        persons.concat({
+          name: newName,
+          number: newNumber,
+          id: persons.length + 1,
+        })
+      );
       addNewNote({ name: newName, number: newNumber });
     }
     setNewName("");
@@ -69,6 +78,7 @@ const App = () => {
         searchField={searchField}
         filteredPersons={filteredPersons}
         persons={persons}
+        onDelete={deleteHandler}
       />
     </div>
   );
