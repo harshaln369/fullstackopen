@@ -10,12 +10,15 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 
+import "./index.css";
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filteredPersons, setFilteredPersons] = useState([]);
   const [searchField, setSearchField] = useState("");
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     getPersons().then((response) => setPersons(response));
@@ -60,13 +63,13 @@ const App = () => {
           name: nameAlreadyExists.name,
           number: newNumber,
           id: nameAlreadyExists.id,
-        }).then((response) =>
+        }).then((response) => {
           setPersons((persons) =>
             persons.map((person) =>
               person.id !== nameAlreadyExists.id ? person : response
             )
-          )
-        );
+          );
+        });
       }
     } else {
       setPersons(
@@ -77,6 +80,10 @@ const App = () => {
         })
       );
       addNewNote({ name: newName, number: newNumber });
+      setErrorMessage(`Added ${newName}`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     }
     setNewName("");
     setNewNumber("");
@@ -85,6 +92,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {errorMessage && <div className="error">{errorMessage}</div>}
       <Filter onFilterNameChange={filterNamesHandler} />
       <h2>add a new</h2>
 
