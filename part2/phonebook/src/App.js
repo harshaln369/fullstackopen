@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 
+import { addNewNote } from "./services/services";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
@@ -45,6 +46,7 @@ const App = () => {
       alert(`${newName} is already added to phonebook.`);
     } else {
       setPersons(persons.concat({ name: newName, number: newNumber }));
+      addNewNote({ name: newName, number: newNumber });
     }
     setNewName("");
     setNewNumber("");
