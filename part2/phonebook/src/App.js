@@ -44,7 +44,14 @@ const App = () => {
   const deleteHandler = (id, name) => {
     if (window.confirm(`Delete ${name} ?`)) {
       setPersons((person) => persons.filter((person) => person.id !== id));
-      deletePerson(id);
+      deletePerson(id).catch((err) => {
+        setErrorMessage(
+          `Information of ${name} has already been removed from server `
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
+      });
     }
   };
 
