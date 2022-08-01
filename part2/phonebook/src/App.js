@@ -71,22 +71,34 @@ const App = () => {
           number: newNumber,
           id: nameAlreadyExists.id,
         }).then((response) => {
+          if (typeof response === "string") {
+            setErrorMessage(response);
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
+            return;
+          }
           setPersons((persons) =>
             persons.map((person) =>
-              person.id !== nameAlreadyExists.id ? person : response
+              person.id === nameAlreadyExists.id
+                ? { ...person, number: response.number }
+                : person
             )
           );
         });
       }
     } else {
-      setPersons(
-        persons.concat({
-          name: newName,
-          number: newNumber,
-          id: persons.length + 1,
-        })
-      );
-      addNewNote({ name: newName, number: newNumber });
+      addNewNote({ name: newName, number: newNumber }).then((response) => {
+        if (typeof response === "string") {
+          setErrorMessage(response);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+          return;
+        }
+
+        setPersons((persons) => persons.concat(response));
+      });
       setErrorMessage(`Added ${newName}`);
       setTimeout(() => {
         setErrorMessage(null);
